@@ -19,9 +19,9 @@ class UserFixture extends Fixture
         $user = new User();
         $user->setUsername('admin');
         $user->setPassword(
-          $this->encoder->encodePassword($user, 'qwe123')
+          $this->encoder->encodePassword($user, 'password')
         );
-        $user->setEmail('kkaimar@hotmail.com');
+        $user->setEmail('admin@admin.com');
 
         $manager->persist($user);
         $manager->flush();
