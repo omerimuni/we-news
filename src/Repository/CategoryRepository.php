@@ -49,8 +49,9 @@ class CategoryRepository extends ServiceEntityRepository
     public function groupByCategory()
     {
         return $this->createQueryBuilder('c')
-        ->leftJoin('c.article', 'n')
-        ->groupBy('c')
-        ->getQuery()->getResult();
+            ->leftJoin('c.article', 'n')
+            ->groupBy('c')
+            ->getQuery()
+            ->getResult();
     }
 }

@@ -13,38 +13,39 @@ use App\Reprository\Category;
 
 class MenuBuilder implements ContainerAwareInterface
 {
-  use ContainerAwareTrait;
-  private $em;
-  private $factory;
-  /**
-   * @param FactoryInterface $factory
-   */
-  public function __construct(FactoryInterface $factory, EntityManagerInterface $em)
-  {
-      $this->factory = $factory;
-      $this->em = $em;
-  }
+    use ContainerAwareTrait;
+    private $em;
+    private $factory;
+    
+    /**
+     * @param FactoryInterface $factory
+     */
+    public function __construct(FactoryInterface $factory, EntityManagerInterface $em)
+    {
+        $this->factory = $factory;
+        $this->em = $em;
+    }
 
 
-  public function createMainMenu(RequestStack $requestStack )
-  {
+    public function createMainMenu(RequestStack $requestStack )
+    {
+        $menu = $this->factory->createItem('root', array(
+            'childrenAttributes' => array(
+            'class' => 'nav-menu nav navbar-nav',
+          ),
+        ));
+        
+        $menu->addChild('Home', ['route' => 'front']);
 
-      $menu = $this->factory->createItem('root', array(
-        'childrenAttributes' => array(
-          'class' => 'nav-menu nav navbar-nav',
-        ),
-      ));
-      $menu->addChild('Home', ['route' => 'front']);
+        foreach ($this->em->getRepository('App\Entity\Category')->findAll() as $item) {
+          $menu->addChild($item->getTitle(), [
+              'route' => 'category',
+              'routeParameters' => ['category' => $item->getId()]
+          ]);
+        }
+        
+        $menu->addChild('Editor', ['route' => 'editor']);
 
-      foreach ($this->em->getRepository('App\Entity\Category')->findAll() as $item) {
-        $menu->addChild($item->getTitle(), [
-            'route' => 'category',
-            'routeParameters' => ['category' => $item->getId()]
-        ]);
-      }
-
-      $menu->addChild('Editor', ['route' => 'editor']);
-
-      return $menu;
-  }
+        return $menu;
+    }
 }

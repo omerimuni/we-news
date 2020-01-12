@@ -78,8 +78,7 @@ class NewsController extends AbstractController
         $form = $this->createForm(CommentFormType::class);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) 
-        {
+        if ($form->isSubmitted() && $form->isValid()){
             $data = $form->getData();
             $comment = new Comments();
             $comment->setName($data->getName());
@@ -92,11 +91,10 @@ class NewsController extends AbstractController
             $this->em->flush();
             $this->addFlash('success', 'Your comment posted!');
             return $this->redirectToRoute('article', ['article' => $article]);
-        }
-        else
-        {
+        }else{
             $this->addFlash('error', 'Viga!');
         }
+        
         $news = $this->em->getRepository('App\Entity\News')->findBy(['id' => $article]);
         if (!$news) {
             return $this->redirectToRoute('front');

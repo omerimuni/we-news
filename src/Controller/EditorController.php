@@ -52,8 +52,7 @@ class EditorController extends AbstractController
     {
         $form = $this->createForm(NewsFormType::class);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) 
-        {
+        if ($form->isSubmitted() && $form->isValid()){
             $data = $form->getData();
             //dd($data->getCategories());
             $article = new News();
@@ -61,8 +60,7 @@ class EditorController extends AbstractController
             $article->setShort($data->getShort());
             $article->setContent($data->getContent());
             $article->setPublishedAt(new \DateTime('now'));
-            foreach($data->getCategories() as $cat)
-            {
+            foreach($data->getCategories() as $cat){
                 $article->addCategory($cat);
             }
             $uploadedFile = $form['picture']->getData();
@@ -149,8 +147,7 @@ class EditorController extends AbstractController
         $form = $this->createForm(CategoryFormType::class);
         $form->handleRequest($request);
     
-        if ($form->isSubmitted() && $form->isValid()) 
-        {
+        if ($form->isSubmitted() && $form->isValid()){
             $data = $form->getData();
             $category = new Category();
             $category->setTitle($data->getTitle());
@@ -172,8 +169,7 @@ class EditorController extends AbstractController
     {
         $form = $this->createForm(CategoryFormType::class, $category);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) 
-        {
+        if ($form->isSubmitted() && $form->isValid()){
             $this->em->persist($category);
             $this->em->flush();
             $this->addFlash('success', 'Category '.$category->getTitle().'  updated!');

@@ -19,7 +19,7 @@ class NewsFormType extends AbstractType
 
     public function __construct(CategoryRepository $categoryRepository)
     {
-      $this->categoryRepository = $categoryRepository;
+        $this->categoryRepository = $categoryRepository;
     }
 
     public function configureOptions(OptionsResolver $resolver)

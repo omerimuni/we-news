@@ -49,12 +49,12 @@ class CommentsRepository extends ServiceEntityRepository
     */
 
     public function getComments($news){
-      $em = $this->getEntityManager()->createQueryBuilder();
-      $em
-        ->select('n')
-        ->from('App\Entity\Comments', 'n')
-        ->where('n.news = :a')
-        ->setParameter('a', $news);
-      return $em->getQuery()->getResult();
+        $em = $this->getEntityManager()->createQueryBuilder();
+        $em
+            ->select('n')
+            ->from('App\Entity\Comments', 'n')
+            ->where('n.news = :a')
+            ->setParameter('a', $news);
+        return $em->getQuery()->getResult();
     }
 }
