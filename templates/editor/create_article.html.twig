@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create article{% endblock %}
+
+{% block header %}
+<div id="page-header" class="page-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-10">
+        <div class="post-meta">
+        </div>
+          <h1>Create article</h1>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block body %}
+<div class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        {{ form_start(articleForm) }}
+            {{ form_row(articleForm.title, {
+                label: 'Article title',
+            }) }}
+            {{ form_row(articleForm.short, {
+                label: 'Short Description',
+            }) }}
+            {{ form_row(articleForm.content, {
+                label: 'Content',
+            }) }}
+
+    
+
+            {{ form_row(articleForm.picture, {
+                label: 'Article image',
+            }) }}
+            <button type="submit" class="btn btn-primary">Create article</button>
+            <a href="{{ path('editor_news') }}" class="btn btn-alert">Cancel!</a>
+        {{ form_end(articleForm) }}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

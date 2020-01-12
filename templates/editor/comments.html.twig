@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Manage Comments{% endblock %}
+
+{% block header %}
+<div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-10">
+        <a href="{{ path('editor_news') }}">News</a> | <a href="{{ path('editor_comments') }}">Manage Comments</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block body %}
+<div class="section">
+  <div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Article</th>
+                    <th>Comment</th>
+                    <th>Name</th>
+                    <th>Created</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for comment in comments %}
+                    <tr>
+                        <td>
+                        <a href="{{ path('article', {'article': comment.news.id}) }}">
+                            {{ comment.news.title }}
+                        </a>
+                        </td>
+
+                        <td style="width: 20%;">
+                            {{ comment.comment }}
+                        </td>
+                        <td>
+                            {{ comment.name }}
+                        </td>
+                        <td>
+                            {{ comment.publishedAt|date("m/d/Y") }}
+                        </td>
+
+                        <td>
+                          {% if comment.isDeleted == 0 %}
+                            <a href="{{ path('delete_comment', {'comment': comment.id}) }}"><i class="fa fa-trash"></i></a>
+                          {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            </div>
+        </div>
+        </div>
+    </div>
+{% endblock %}

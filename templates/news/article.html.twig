@@ -1,0 +1,158 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block header %}
+<div id="post-header" class="page-header">
+  <div class="background-img" style="background-image: url('{{ asset('uploads/') ~ article.picture }}');"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-10">
+        <div class="post-meta">
+          <span class="post-date">{{ article.publishedAt|date("M d, Y") }}</span>
+        </div>
+        <h1>{{ article.title }}</h1>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+{% block body %}
+<div class="section">
+  <!-- container -->
+  <div class="container">
+    <!-- row -->
+    <div class="row">
+      <!-- Post content -->
+      <div class="col-md-8">
+          <div class="main-post">
+            <h3>{{ article.short }}</h3>
+            <p>{{ article.content }}</p>
+          </div>
+
+
+
+        <!-- comments -->
+        <div class="section-row">
+        <div class="clearfix visible-md visible-lg"></div>
+        {% if comments|length > 0 %}
+          <div class="section-title">
+            <h2>{{ comments|length }} Comments</h2>
+          </div>
+
+          <div class="post-comments">
+            {% for comment in comments %}
+            <!-- comment -->
+            <div class="media">
+              <div class="media-body">
+                <div class="media-heading">
+                  <h4>{{comment.name}}</h4>
+                  <span class="time">{{comment.publishedAt|date("M d, Y")}}</span>
+                </div>
+                {% if comment.isDeleted %}
+                  <i>This comment is deleted</i>
+                {% else %}
+                  <p>{{comment.comment}}</p>
+                {% endif %}
+
+              </div>
+            </div>
+            <!-- /comment -->
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- /comments -->
+
+        <!-- reply -->
+        <div class="section-row">
+          <div class="section-title">
+            <h2>Leave a reply</h2>
+            {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+            {% endfor %}
+            <p>your email address will not be published. required fields are marked *</p>
+          </div>
+          
+          {{ form_start(commentsForm) }}
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  {{ form_row(commentsForm.name, {
+                      label: 'Your name',
+                  }) }}
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                {{ form_row(commentsForm.email, {
+                    label: 'Your Email',
+                }) }}
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="form-group">
+                {{ form_row(commentsForm.comment, {
+                    label: 'Your Comment',
+                }) }}
+                </div>
+              </div>
+            </div>
+          {{ form_end(commentsForm) }}
+        </div>
+        <!-- /reply -->
+      </div>
+      <!-- /Post content -->
+
+      <!-- aside -->
+      <div class="col-md-4">
+
+        <!-- post widget -->
+        <div class="aside-widget">
+          <div class="section-title">
+            <h2>Latest News</h2>
+          </div>
+          {% for article in latest %}
+          <div class="post post-widget">
+            <a class="post-img" href="{{ path('article', {article: article.id}) }}"><img src="{{ asset('uploads/') ~ article.picture }}" alt=""></a>
+            <div class="post-body">
+              <h3 class="post-title"><a href="{{ path('article', {article: article.id}) }}">{{ article.title }}</a></h3>
+            </div>
+          </div>
+          {% endfor %}
+
+        </div>
+        <!-- /post widget -->
+
+
+
+        <!-- catagories -->
+        <div class="aside-widget">
+          <div class="section-title">
+            <h2>Categories</h2>
+          </div>
+          <div class="category-widget">
+            <ul>
+              {% for cat in categories %}
+              <li><a href="{{ path('category', {category: cat.id}) }}" class="cat-1">{{cat.title}}</a></li>
+              {% endfor%}
+            </ul>
+          </div>
+        </div>
+        <!-- /catagories -->
+
+      </div>
+      <!-- /aside -->
+    </div>
+    <!-- /row -->
+  </div>
+  <!-- /container -->
+</div>
+
+{% endblock %}

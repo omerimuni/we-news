@@ -1,0 +1,7 @@
+{# templates/emails/registration.html.twig #}
+
+News statistics
+<br>
+{% for article in statistics %}
+    <br>{statistics.title} {statistics.visitors} 
+{% endfor %}
